@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from first_app.models import Topic,WebPage,AccessRecord
 
 def index(request):
-  my_dictionary = { "insert_me": "Hello I am python" }
-  return render(request, 'first_app/index.html', context=my_dictionary)
+  webpages_list = AccessRecord.objects.order_by('date')
+  date_dict = {'access_records': webpages_list}
+  return render(request, 'first_app/index.html', context=date_dict)
 
 def help(request):
   my_dictionary = { "help": "Help page" }
