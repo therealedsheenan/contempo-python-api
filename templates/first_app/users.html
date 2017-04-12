@@ -1,0 +1,31 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>First App</title>
+</head>
+<body>
+  <h1>This is the users page</h1>
+  <div class="AccessRecord">
+  {% if users %}
+    <table>
+      <thead>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>E-maik</th>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.email }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No Access Records Found!</p>
+  {% endif %}
+  </div>
+</body>
+</html>
