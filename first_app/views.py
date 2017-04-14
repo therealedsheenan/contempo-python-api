@@ -1,17 +1,13 @@
 from django.shortcuts import render
-from first_app.models import AccessRecord, User
-from first_app.forms import NewUserForm
+from django.contrib.auth.models import User
+from first_app.models import AccessRecord, UserProfileInfo
+from first_app.forms import NewUserForm, NewUserProfileForm
 
 
 def index(request):
     web_list = AccessRecord.objects.order_by('date')
-    date_dict = {'access_records': web_list}
-    return render(request, 'first_app/index.html', context=date_dict)
-
-
-def help(request):
-    my_dictionary = {"help": "Help page"}
-    return render(request, 'first_app/help.html', context=my_dictionary)
+    date_dict = {'access_records': web_list, 'site_name': 'Site Name'}
+    return render(request, 'first_app/index.html', date_dict)
 
 
 def users(request):
@@ -20,16 +16,38 @@ def users(request):
     return render(request, 'first_app/users.html', context=my_dictionary)
 
 
-def new_user(request):
-    form = NewUserForm()
+def registration(request):
+    registered = False
+
+    user_form = NewUserForm()
+    user_profile_form = NewUserProfileForm()
 
     if request.method == 'POST':
-        form = NewUserForm(request.POST)
+        user_form = NewUserForm(data=request.POST)
+        user_profile_form = NewUserProfileForm(data=request.POST)
 
-    if form.is_valid():
-        form.save(commit=True)
-        return index(request)
+        if user_form.is_valid() and user_profile_form.is_valid():
+            user = user_form.save(commit=True)
+            user.set_password(user.password)
+            user.save
+
+            profile = user_profile_form.save(commit=False)
+            profile.user = user
+
+            if 'profile_pic' in request.FILES:
+                profile.profile_pic = request.FILES['profile_pic']
+
+            profile.save()
+
+            registered = True
+            return index(request)
+        else:
+            print(user_form.errors, user_profile_form.errors)
     else:
-        print('Error Form invalid')
+        user_form = NewUserForm()
+        user_profile_form = NewUserProfileForm()
 
-    return render(request, 'first_app/new_user.html', {'form': form})
+    return render(request, 'first_app/registration.html',
+                  {'user_form': user_form,
+                   'user_profile_form': user_profile_form,
+                   'registered': registered})

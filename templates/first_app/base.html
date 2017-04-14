@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>This is a title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="{% url 'first_app:index' %}">Home</a>
+                </li>
+                <li>
+                    <a href="{% url 'first_app:users' %}">Users</a>
+                </li>
+                <li>
+                    <a href="{% url 'first_app:registration' %}">Registration</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {% block body %}
+    {% endblock %}
+</body>
+</html>
