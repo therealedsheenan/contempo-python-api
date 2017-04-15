@@ -11,12 +11,21 @@
                 <li>
                     <a href="{% url 'first_app:index' %}">Home</a>
                 </li>
-                <li>
-                    <a href="{% url 'first_app:users' %}">Users</a>
-                </li>
-                <li>
-                    <a href="{% url 'first_app:registration' %}">Registration</a>
-                </li>
+                {% if user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'first_app:users' %}">Users</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'first_app:logout_user' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'first_app:registration' %}">Registration</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'first_app:login_user' %}">Login</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </nav>

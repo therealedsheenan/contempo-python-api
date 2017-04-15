@@ -3,6 +3,12 @@ from django.contrib.auth.models import User
 from first_app.models import AccessRecord, UserProfileInfo
 from first_app.forms import NewUserForm, NewUserProfileForm
 
+# authentication
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
+
 
 def index(request):
     web_list = AccessRecord.objects.order_by('date')
@@ -10,6 +16,13 @@ def index(request):
     return render(request, 'first_app/index.html', date_dict)
 
 
+@login_required
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect('index')
+
+
+@login_required
 def users(request):
     user_list = User.objects.all
     my_dictionary = {'users': user_list}
@@ -29,7 +42,7 @@ def registration(request):
         if user_form.is_valid() and user_profile_form.is_valid():
             user = user_form.save(commit=True)
             user.set_password(user.password)
-            user.save
+            user.save()
 
             profile = user_profile_form.save(commit=False)
             profile.user = user
@@ -51,3 +64,23 @@ def registration(request):
                   {'user_form': user_form,
                    'user_profile_form': user_profile_form,
                    'registered': registered})
+
+
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect('/first_app/users')
+            else:
+                return HttpResponse("Account not active.")
+        else:
+            print("Invalid Credentials.")
+            return HttpResponse("Invalid Credentials.")
+    else:
+        return render(request, 'first_app/login.html', {})

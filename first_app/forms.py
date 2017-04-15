@@ -5,7 +5,7 @@ from first_app.models import UserProfileInfo
 
 
 class NewUserForm(ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(max_length=32, widget=forms.PasswordInput)
 
     class Meta:
         model = User
