@@ -1,9 +1,13 @@
-from django.shortcuts import render
 from first_app.models import AccessRecord
+from django.views.generic import TemplateView
 
 
-def index(request):
-    web_list = AccessRecord.objects.order_by('date')
-    date_dict = {'access_records': web_list, 'site_name': 'Site Name'}
-    return render(request, 'first_app/index.html', date_dict)
+class IndexView(TemplateView):
+    template_name = 'first_app/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['access_records'] = AccessRecord.objects.order_by('date')
+        context['site_name'] = 'Site Name'
+        return context
 
