@@ -16,8 +16,6 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
-from first_app import views
-from users import views
 
 urlpatterns = [
   url(r'^$', include('first_app.urls')),
