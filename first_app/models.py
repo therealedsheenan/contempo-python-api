@@ -1,8 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 
-# Create your models here.
 class Topic(models.Model):
     top_name = models.CharField(max_length=264, unique=True)
 
@@ -25,13 +23,3 @@ class AccessRecord(models.Model):
 
     def __str__(self):
         return str(self.date)
-
-
-class UserProfileInfo(models.Model):
-    user = models.OneToOneField(User)
-
-    portfolio_site = models.URLField(blank=True)
-    profile_pic = models.ImageField(upload_to='profile_pics', blank=True)
-
-    def __str__(self):
-        return str(self.user.username)
