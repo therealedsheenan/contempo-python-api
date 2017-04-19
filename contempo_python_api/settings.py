@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'first_app'
+    'first_app',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -139,4 +140,4 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
-LOGIN_URL = '/first_app/login'
+LOGIN_URL = '/users/login'
