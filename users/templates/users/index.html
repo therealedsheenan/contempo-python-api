@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+{% block body %}
+    <h1>This is the users page</h1>
+    <div class="AccessRecord">
+        {% if users %}
+            <table class="table">
+                <thead>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>E-mail</th>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No Access Records Found!</p>
+        {% endif %}
+    </div>
+{% endblock %}
