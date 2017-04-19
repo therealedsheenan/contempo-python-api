@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.contrib.auth.models import User
+from django.views import View
 
-from users.forms import NewUserForm, NewUserProfileForm
+from users.forms import NewUserForm, NewUserProfileForm, SignInForm
 
 # authentication
 from django.contrib.auth import authenticate, login, logout
@@ -22,13 +23,50 @@ def sign_out(request):
     return HttpResponseRedirect('/users/sign_in')
 
 
-def sign_up(request):
-    registered = False
+class SignIn(View):
 
-    user_form = NewUserForm()
-    user_profile_form = NewUserProfileForm()
+    @staticmethod
+    def get(request):
+        sign_in_form = SignInForm()
+        context = {'sign_in_form': sign_in_form}
+        return render(request, 'users/sign_in.html', context)
 
-    if request.method == 'POST':
+    @staticmethod
+    def post(request):
+        sign_in_form = SignInForm()
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect('/users/')
+            else:
+                print('Invalid Credentials.')
+                return HttpResponse('Invalid Credentials')
+        else:
+            context = {'sign_in_form': sign_in_form}
+            return render(request, 'users/sign_in.html', context)
+
+
+class SignUp(View):
+
+    @staticmethod
+    def get(request):
+        registered = False
+
+        user_form = NewUserForm()
+        user_profile_form = NewUserProfileForm()
+
+        return render(request, 'users/sign_up.html',
+                      {'user_form': user_form,
+                       'user_profile_form': user_profile_form,
+                       'registered': registered})
+
+    @staticmethod
+    def post(request):
         user_form = NewUserForm(data=request.POST)
         user_profile_form = NewUserProfileForm(data=request.POST)
 
@@ -49,31 +87,4 @@ def sign_up(request):
             return index(request)
         else:
             print(user_form.errors, user_profile_form.errors)
-    else:
-        user_form = NewUserForm()
-        user_profile_form = NewUserProfileForm()
 
-    return render(request, 'users/sign_up.html',
-                  {'user_form': user_form,
-                   'user_profile_form': user_profile_form,
-                   'registered': registered})
-
-
-def sign_in(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        user = authenticate(username=username, password=password)
-
-        if user:
-            if user.is_active:
-                login(request, user)
-                return HttpResponseRedirect('/users/')
-            else:
-                return HttpResponse("Account not active.")
-        else:
-            print("Invalid Credentials.")
-            return HttpResponse("Invalid Credentials.")
-    else:
-        return render(request, 'users/sign_in.html', {})

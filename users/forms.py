@@ -16,3 +16,9 @@ class NewUserProfileForm(ModelForm):
     class Meta:
         model = UserProfileInfo
         fields = ('portfolio_site', 'profile_pic')
+
+
+class SignInForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'password')
