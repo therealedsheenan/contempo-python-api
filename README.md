@@ -1,6 +1,5 @@
-# Contempo-py-api
+# Contempo-python-api
 API for contempo using python.
-
 
 ### Features
 - Using JWT or JSON Web Tokens for user authentication.
