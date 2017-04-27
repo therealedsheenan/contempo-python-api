@@ -1,4 +1,4 @@
-"""contempo_python_api URL Configuration
+"""contempo_py_api URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.10/topics/http/urls/
@@ -15,11 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django.conf.urls import include
 
 urlpatterns = [
-  url(r'^$', include('first_app.urls')),
-  url(r'^first_app/', include('first_app.urls')),
-  url(r'^users/', include('users.urls')),
-  url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
 ]
