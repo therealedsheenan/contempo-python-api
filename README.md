@@ -1,4 +1,4 @@
-# Contempo-python-api
+# Contempo-python-api [![Build Status](https://travis-ci.org/therealedsheenan/contempo-python-api.svg?branch=master)](https://travis-ci.org/therealedsheenan/contempo-python-api)
 API for contempo using python.
 
 ### Features
