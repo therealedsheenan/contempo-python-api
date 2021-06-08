@@ -7,7 +7,7 @@ djangorestframework==3.6.2
 Faker==0.7.11
 Markdown==2.6.8
 olefile==0.44
-Pillow==4.1.0
+Pillow==8.2.0
 pycparser==2.17
 python-dateutil==2.6.0
 six==1.10.0
